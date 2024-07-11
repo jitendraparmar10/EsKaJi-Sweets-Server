@@ -1,0 +1,64 @@
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Footer from '../Footer/Footer';
+
+
+const Manwaar = () => {
+  const [products, setproducts] = useState([])
+  const getProductsHandler=async()=>{
+let response= await axios.get("https://eskaji-server.onrender.com/");
+setproducts(response.data.products);
+  }
+
+  useEffect(() => {
+    getProductsHandler();
+  }, []);
+ 
+  return (
+
+    <>
+     {/* {
+      [...Array(10)].map((item,int)=>{
+        return <div>
+         {int} abce
+        </div>
+      })
+     } */}
+  
+  
+      <div className='body'>
+        <div className='container-box1'>
+        {
+    products.length>=1 && products.map((item)=>{
+      if(item.category==="Manwaar"){
+        return(
+  
+          <Link  to={`/product_cat/product_description/${item._id}`}>
+          <div className='card'>
+              <img src={item.image}></img>
+              <div className='description'>
+                <h3>{item.name}</h3>
+                <p>{item.category}</p>
+                <p>₹{item.price}</p>
+                <a href="#">Read More</a>
+              </div>
+            </div>
+          </Link>
+        )
+      }
+      return;
+    })
+  }
+  
+  </div> 
+  </div>
+  <Footer/>
+      </>
+  
+  
+  
+    )
+}
+
+export default Manwaar
